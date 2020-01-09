@@ -1,0 +1,25 @@
+# Zigbee Network Map Refresh Time
+- platform: mqtt
+  name: Zigbee2mqtt Networkmap
+  # if you change base_topic of Zigbee2mqtt, change state_topic accordingly
+  state_topic: zigbee2mqtt/bridge/networkmap/raw
+  value_template: >-
+    {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
+  # again, if you change base_topic of Zigbee2mqtt, change json_attributes_topic accordingly
+  json_attributes_topic: zigbee2mqtt/bridge/networkmap/raw
+
+- platform: bom
+  station: 'IDN60901.94766'
+  monitored_conditions:
+    - apparent_t
+    - air_temp
+    - press_tend
+    - rain_trace
+    - rel_hum
+    - sea_state
+    - swell_dir_worded
+    - swell_height
+    - swell_period
+    - weather
+    - wind_dir
+    - wind_spd_kmh

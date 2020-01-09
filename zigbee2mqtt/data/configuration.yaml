@@ -1,0 +1,26 @@
+homeassistant: true
+permit_join: true
+mqtt:
+  base_topic: zigbee2mqtt
+  server: 'mqtt://192.168.1.12'
+serial:
+  port: /dev/ttyACM0
+devices:
+  '0x00158d0003974748':
+    friendly_name: '0x00158d0003974748'
+  '0x14b457fffe34a6b0':
+    friendly_name: '0x14b457fffe34a6b0'
+  '0x00158d0003a0dcdb':
+    friendly_name: '0x00158d0003a0dcdb'
+  '0x14b457fffefaf370':
+    friendly_name: '0x14b457fffefaf370'
+  '0x00158d0003cd36bc':
+    friendly_name: '0x00158d0003cd36bc'
+  '0x000d6ffffe4aed18':
+    friendly_name: '0x000d6ffffe4aed18'
+  '0x14b457fffe508cef':
+    friendly_name: '0x14b457fffe508cef'
+  '0x14b457fffe686200':
+    friendly_name: '0x14b457fffe686200'
+  '0x00158d000449f317':
+    friendly_name: '0x00158d000449f317'

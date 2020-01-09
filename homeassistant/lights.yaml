@@ -1,0 +1,47 @@
+# Lounge Cloud Lights
+- platform: group
+  name: Lounge Cloud Lights
+  entities:
+    - light.lounge_1
+    - light.lounge_2
+
+# Lounge Lights
+- platform: group
+  name: Lounge Lights
+  entities:
+    - light.lounge_cloud_lights
+    - light.lounge_lamp
+
+# Bedside Lamps
+- platform: group
+  name: Bedside Lamps
+  entities:
+    - light.bedside_lamp_left
+    - light.bedside_lamp_right
+
+# Moorescloud Holidays
+- platform: mqtt
+  name: Holiday 1
+  command_topic: "moorescloud/holidayac2fda"
+  schema: json
+  rgb: true
+  color_temp: true
+  brightness: true
+  effect: true
+  effect_list:
+    - christmas
+    - rainbow
+    - effect_off
+  
+- platform: mqtt
+  name: Holiday 2
+  command_topic: "moorescloud/holidayac3112"
+  schema: json
+  rgb: true
+  color_temp: true
+  brightness: true
+  effect: true
+  effect_list:
+    - christmas
+    - rainbow
+    - effect_off

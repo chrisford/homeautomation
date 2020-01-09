@@ -1,0 +1,129 @@
+# Chris' Blind Auto open in the morning
+- alias: Chris' Blind
+  trigger:
+    platform: time
+    at: '07:20:00'
+  condition:
+    condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  action:
+    service: cover.open_cover
+    entity_id: cover.chris_blind
+
+# Turn on the lamps when the front door opens if it's already dark
+- alias: Front Door
+  trigger:
+    platform: state
+    entity_id: binary_sensor.front_door
+    to: 'on'
+  condition:
+    condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+    entity_id: light.lounge_lamp
+    service: light.turn_on
+      
+# Lounge Light Switches - Main Cloud Lights
+- alias: Lounge Lights - Main
+  trigger:
+  - platform: state
+    entity_id: sensor.aqara_switch_1_click
+    to: 'left'
+  - platform: state
+    entity_id: sensor.aqara_switch_2_click
+    to: 'left'
+  action:
+  - entity_id: light.lounge_1
+    service: light.toggle
+  - entity_id: light.lounge_2
+    service: light.toggle
+  
+# Lounge Light Switches - Lounge Lamp
+- alias: Lounge Lights - Lamp
+  trigger:
+  - platform: state
+    entity_id: sensor.aqara_switch_1_click
+    to: 'right'
+  - platform: state
+    entity_id: sensor.aqara_switch_2_click
+    to: 'right'
+  action:
+  - service: light.toggle
+    entity_id: light.lounge_lamp
+  
+# Update the Zigbee Network map every 10 minutes
+- alias: Zigbee Map
+  trigger:
+  - minutes: /10
+    platform: time_pattern
+    seconds: '0'
+  action:
+  - service: zigbee2mqtt_networkmap.update
+  hide_entity: true
+
+# Turn everything off when people go out
+- alias: No one home
+  trigger:
+  - platform: state
+    entity_id: group.housemates
+    to: 'not_home'
+  action:
+    - entity_id: group.all_lights
+      service: light.turn_off
+    - entity_id: switch.noisy_speaker
+      service: switch.turn_off
+
+# Someone comes home after dark
+- alias: Someone comes home after dark
+  trigger:
+  - platform: state
+    entity_id: group.housemates
+    to: 'home'
+  condition:
+    condition: state
+    entity_id: sun.sun
+    state: 'below_horizon'
+  action:
+    - entity_id: light.lounge_lamp
+      service: light.turn_on
+    - entity_id: light.hanging_lamp
+      service: light.turn_on
+
+# The sun goes down and people are home
+- alias: Sunset
+  trigger:
+  - platform: state
+    entity_id: sun.sun
+    to: 'below_horizon'
+  condition:
+    condition: state
+    entity_id: group.housemates
+    state: 'home'
+  action:
+    - entity_id: light.lounge_lamp
+      service: light.turn_on
+    - entity_id: light.hanging_lamp
+      service: light.turn_on
+
+# Turn the Pool Pump On & Off
+- alias: Pool On
+  trigger:
+    - platform: time
+      at: '06:00:00'
+    - platform: time
+      at: '21:00:00'
+  action:
+    - entity_id: switch.pool_filter_relay
+      service: switch.turn_on
+
+- alias: Pool Off
+  trigger:
+    - platform: time
+      at: '10:00:00'
+    - platform: time
+      at: '23:59:59'
+  action:
+    - entity_id: switch.pool_filter_relay
+      service: switch.turn_off

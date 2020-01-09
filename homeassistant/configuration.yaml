@@ -1,0 +1,117 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Include any "Package" configs
+homeassistant:
+  packages: !include_dir_named packages
+
+# Manage the LOvelace UI through <config>/ui-lovelace.yaml
+lovelace:
+  mode: yaml
+
+webhook:
+ 
+zigbee2mqtt_networkmap:
+   #topic: your topic (optional, default zigbee2mqtt)
+
+# Manage the side panel
+panel_iframe:
+  nodered:
+    title: 'Node Red'
+    icon: 'mdi:graphql'
+    url: !secret url-nodered
+  networkmap:
+    title: 'Zigbee Map'
+    icon: 'mdi:graphql'
+    url: '/local/community/zigbee2mqtt_networkmap/map.html'
+    
+# SSL Setup
+http:
+  base_url: !secret url-ha
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  ip_ban_enabled: true
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+# Device Trackers
+#device_tracker:
+#  - platform: nmap_tracker
+#    hosts: 192.168.1.0/24
+#    exclude: 192.168.1.0/27
+#    interval_seconds: 30
+#    consider_home: 300
+
+device_tracker:
+  - platform: netgear
+    host: 192.168.1.1
+    username: 'admin'
+    password: !secret hades
+    port: 80
+    accesspoints:
+      - CC:40:D0:5B:2C:62 # Hades
+      - CC:40:D0:5B:39:69 # Satellite
+    devices:
+      - B0:70:2D:D5:E8:9E # Al's iPhone
+      - B6:D8:D2:1C:9A:D7 # Chris' Pixel
+      - 44:91:60:65:B9:92 # Jess' Galaxy
+      - 6C:8D:C1:31:21:7C # Neridah's iPhone
+    consider_home: 240
+    interval_seconds: 30
+    new_device_defaults:
+      track_new_devices: true
+
+# Add the BOM Weather Integration
+weather:
+  - platform: bom
+
+camera:
+  - platform: bom
+    location: 'Sydney'
+
+# Wemo Integration
+wemo: !include wemo.yaml
+
+# Vera Integration
+#vera:
+#  vera_controller_url: http://192.168.1.9:3480/
+  
+# Tuya Integration
+# Smart Life for 3A Blind Motor
+tuya:
+  platform: smart_life
+  username: !secret smart_life_un
+  password: !secret smart_life_pw
+  country_code: '61'
+
+# Moore's Cloud Holiday:
+#light:
+#  - platform: mc_holiday
+#    host: 192.168.1.100
+
+# MQTT
+mqtt:
+  discovery: true
+  broker: 192.168.1.12
+  birth_message:
+    topic: 'hass/status'
+    payload: 'online'
+  will_message:
+    topic: 'hass/status'
+    payload: 'offline'
+
+# Is it a Weekday?
+binary_sensor:
+  - platform: workday
+    country: AU
+    province: NSW
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensors.yaml
+light: !include lights.yaml

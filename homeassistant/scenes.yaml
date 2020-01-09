@@ -1,0 +1,52 @@
+- name: Teal
+  entities:
+    light.bedside_lamp_left:
+      state: on
+      color_temp: 454
+      brightness: 200
+    light.bedside_lamp_right:
+      state: on
+      color_temp: 454
+      brightness: 200
+    light.hanging_lamp:
+      state: on
+      rgb_color: [23,217,230]
+      brightness: 200
+- name: Purple
+  entities:
+    light.bedside_lamp_left:
+      state: on
+      color_temp: 370
+      brightness: 150
+    light.bedside_lamp_right:
+      state: on
+      color_temp: 370
+      brightness: 150
+    light.hanging_lamp:
+      state: on
+      rgb_color: [209,72,255]
+      brightness: 200
+- name: Bright      
+  entities:
+    light.bedside_lamp_left:
+      state: on
+      color_temp: 371
+      brightness: 255
+    light.bedside_lamp_right:
+      state: on
+      color_temp: 371
+      brightness: 255
+    light.hanging_lamp:
+      state: on
+      color_temp: 285
+      brightness: 254
+- name: Bedtime
+  entities:
+    light.bedside_lamp_left:
+      state: off
+    light.bedside_lamp_right:
+      state: off
+    light.hanging_lamp:
+      state: on
+      rgb_color: [23,217,230]
+      brightness: 75

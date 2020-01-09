@@ -1,0 +1,181 @@
+title: Haus
+
+resources:
+  - url: /local/zigbee2mqtt-networkmap.js?v=0.5.0
+    type: module
+  - url: /local/battery-entity.js?v=0.1
+    type: module
+
+views:
+# Lounge / Kitchen Tab
+  - title: Lounge & Kitchen
+    path: lounge-and-kitchen
+    panel: false
+    theme: dark-mode
+    
+    badges:
+      - person.chris
+      - person.al
+      - person.neridah
+      - person.jess
+      - sun.sun
+    
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: light
+            name: Lounge Cloud Lights
+            entity: light.lounge_cloud_lights
+          - type: light
+            name: Lounge Lamp
+            entity: light.lounge_lamp
+          - type: light
+            name: Christmas Lights
+            entity: light.holiday_1
+          - entity: media_player.kitchen_sonos
+            type: media-control
+          - entity: weather.haus
+            type: weather-forecast
+          - entity: camera.bom_radar_loop_sydney
+            type: picture-entity
+
+# Chris' Room Tab
+  - title: Chris
+    path: chris
+
+    badges: []
+
+    cards:
+      - entities:
+          - entity: light.hanging_lamp
+          - entity: light.bedside_lamp_left
+          - entity: light.bedside_lamp_right
+          - entity: light.chris_desk
+          - entity: switch.noisy_speaker
+          - entity: cover.chris_blind
+        title: Chris' Room
+        show_header_toggle: true
+        type: entities
+      - entities:
+          - entity: scene.teal
+          - entity: scene.purple
+          - entity: scene.bright
+          - entity: scene.bedtime
+        show_icon: true
+        show_name: true
+        show_state: false
+        theme: default
+        type: glance
+      - type: sensor
+        name: Bathroom Humidity
+        entity: sensor.chris_bathroom_humidity
+        graph: line
+        unit: '%'
+        detail: 2
+        hours_to_show: 24
+      - type: sensor
+        name: Bathroom Temp
+        entity: sensor.chris_bathroom_temperature
+        graph: line
+        unit: 'C'
+        detail: 2
+        hours_to_show: 24
+
+# Neridah's Room Tab
+  - title: Neridah
+    path: neridah
+    
+    badges: []
+    
+    cards:
+      - entities:
+          - entity: light.neridah_lamp
+          - entity: light.neridah_desk_lamp
+        title: Neridah's Room
+        type: entities
+    
+# Main Home Tab
+  - title: Home
+    path: default_view
+    
+    badges:
+      - person.chris
+      - person.al
+      - person.neridah
+      - person.jess
+      - sun.sun
+
+    cards:
+      - type: media-control
+        entity: media_player.chris_sonos
+      - type: weather-forecast
+        entity: weather.haus
+      - type: picture-entity
+        entity: camera.bom_radar_loop_sydney
+
+# Pool Filter Tab
+  - title: Pool Filter
+    path: pool-filter
+    panel: false
+    theme: dark-mode
+
+    badges: []
+
+    cards:
+      - type: entities
+        show_header_toggle: false
+        entities:
+          - entity: switch.pool_filter_relay
+            name: Pool Filter
+            icon: mdi:toggle-switch
+      - type: sensor
+        name: Pool Power
+        entity: sensor.pool_filter_power
+        graph: line
+        unit: 'W'
+        detail: 2
+        hours_to_show: 24
+
+# Maintenance
+  - title: Maintenance
+    path: maint
+    panel: false
+    theme: dark-mode
+
+    badges: []
+
+    cards:
+      - type: entities
+        show_header_toggle: false
+        entities:
+          - type: custom:battery-entity
+            entity: sensor.aqara_switch_1_battery
+            name: Aqara Switch 1
+            warning: 35
+            critical: 15
+          - type: custom:battery-entity
+            entity: sensor.aqara_switch_2_battery
+            name: Aqara Switch 2
+            warning: 35
+            critical: 15
+          - type: custom:battery-entity
+            entity: sensor.front_door_battery
+            name: Front Door Sensor
+            warning: 35
+            critical: 15
+          - type: custom:battery-entity
+            entity: sensor.chris_bathroom_battery
+            name: Chris Bathroom Sensor
+            warning: 35
+            critical: 15
+            
+
+      - type: entities
+        show_header_toggle: false
+        entities:
+          - entity: sensor.zigbee2mqtt_bridge_state
+          - entity: sensor.zigbee2mqtt_version
+          - entity: sensor.coordinator_version
+          - entity: input_select.zigbee2mqtt_log_level
+          - entity: switch.zigbee2mqtt_main_join
+          - entity: timer.zigbee_permit_join

@@ -1,0 +1,69 @@
+version: '3.4'
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    hostname: homeassistant
+    image: homeassistant/home-assistant:stable
+    volumes:
+      - /mnt/data/HomeAutomation/homeassistant:/config
+      - /mnt/data/NetworkServices/letsencrypt/etc/letsencrypt/live/${URL}:/ssl
+    networks:
+      lan:
+        ipv4_address: 192.168.1.7
+    environment:
+      - TZ=Australia/Sydney
+    restart: always
+    depends_on:
+      - mqtt-broker
+
+  mqtt-broker:
+    container_name: mqtt-broker
+    hostname: mqtt-broker
+    image: eclipse-mosquitto
+    volumes:
+      - /mnt/data/HomeAutomation/mosquitto:/mosquitto
+    networks:
+      lan:
+        ipv4_address: 192.168.1.12
+    environment:
+      - TZ=Australia/Sydney
+    restart: always
+
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    hostname: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    volumes:
+      - /mnt/data/HomeAutomation/zigbee2mqtt/data:/app/data
+    networks:
+      lan:
+        ipv4_address: 192.168.1.13
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    environment:
+      - TZ=Australia/Sydney
+    restart: always
+    depends_on:
+      - mqtt-broker
+
+  nodered:
+    container_name: nodered
+    hostname: nodered
+    image: nodered/node-red
+    volumes:
+      - /mnt/data/HomeAutomation/nodered:/data
+      - /mnt/data/NetworkServices/letsencrypt/etc/letsencrypt/live/${URL}:/ssl
+    networks:
+      lan:
+        ipv4_address: 192.168.1.8
+    environment:
+      - TZ=Australia/Sydney
+    restart: always
+    depends_on:
+      - mqtt-broker
+      - homeassistant
+
+networks:
+  lan:
+    external: true

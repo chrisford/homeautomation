@@ -1,0 +1,17 @@
+housemates:
+  name: Housemates
+  entities: person.chris, person.al, person.jess, person.neridah
+
+chris_room_lights:
+  name: Chris Room Lights
+  entities:
+    - light.hanging_lamp
+    - light.bedside_lamp_left
+    - light.bedside_lamp_right
+
+lounge_room_lights_all:
+  name: All Lounge Room Lights
+  entities:
+    - light.lounge_1
+    - light.lounge_2
+    - light.lounge_lamp
